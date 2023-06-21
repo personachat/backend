@@ -35,7 +35,9 @@ if 'seed' in persona:
     llm = Llama(model_path="models/ggml-model-q4_1.bin", verbose=False, n_ctx=2048, seed=seed)
 else:
     llm = Llama(model_path="models/ggml-model-q4_1.bin", verbose=False, n_ctx=32784)
-
+safety = 'The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind.'
+if 'ignore_safety_filter' in persona:
+    safety = ''
 prompt = f'''The following is a chat between a helpful AI friend and a human.
 
 The AI assistant's name is: {persona_name}
@@ -44,7 +46,7 @@ The human's name is: {name}
 
 The AI assistant's personality is: {persona_desc}
 
-The AI assistant will greet the human using their first name. The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind.
+The AI assistant will greet the human using their first name. {safety}
 Here is an example:
 
 * * *
@@ -64,10 +66,10 @@ The following is the chat format:
 * * *
 
 ### Human:
-[Message]
+Hello
 
 ### Bot:
-[Message]
+Hi! How are you doing today?
 
 * * *
 
@@ -78,6 +80,6 @@ The following is the chat dialog:
 while True:
     promptinput = input('(You): ').strip()
     prompt += promptinput + "\n\n### Bot:\n"
-    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *'])
+    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]'])
     prompt += output['choices'][0]['text'].strip() + "\n\n### Human:\n"
     print('(Bot): ' + output['choices'][0]['text'].strip())
