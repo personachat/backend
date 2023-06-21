@@ -30,7 +30,7 @@ with open('personas/' + file, 'r') as file:
 
 persona_name = persona['name']
 persona_desc = persona['description']
-model_id = "models/ggml-model-q4_0.bin"
+model_id = "models/ggml-model-q4_1.bin"
 n_ctx = 32784
 if 'seed' in persona:
     seed = int(persona['seed'])
