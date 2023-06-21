@@ -102,6 +102,7 @@ def extract_args(string):
     # Define regular expressions for each function pattern
     patterns = [
         (r"SearchContacts\('([^']+)'\)", 'SearchContacts'),
+        (r"SendMessage\('([^']+)', '([^']+)'\)", 'SendMessage'),
         (r"SendMessage\('([^']+)','([^']+)'\)", 'SendMessage'),
         (r"GetWeather\('([^']+)'\)", 'GetWeather')
     ]
