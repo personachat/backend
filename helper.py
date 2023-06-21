@@ -45,7 +45,7 @@ The chatbot will NOT use any APIs that are unavailable.
 The following APIs are available:
 
 SearchContacts('search query'): Search contacts
-SendMessage('phone number'): Send a text message
+SendMessage('phone number', 'message'): Send a text message. Please correct spelling and grammar on messages sent.
 GetWeather('location'): Get the weather for a location
 
 If the user asks the bot to "Tell [someone] [something]," it will send a message to that person instead of calling them.
@@ -130,12 +130,13 @@ def sendMessage(pnum, message):
 def getWeather(query):
     return getJson(query)
 
-noinput = False
+showInput = True
 while True:
-    if not noinput:
+    if showInput:
         promptinput = input('(You): ').strip()
         prompt += promptinput + "\n\n### Bot:\n"
-        noinput = False
+    else:
+        showInput = True
     output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]'])['choices'][0]['text'].strip()
     func_name, args = extract_args(output)
 
@@ -160,7 +161,7 @@ while True:
             apirsp = "{'error':'Invalid command.'}"
         apirsp = apirsp.strip()
         prompt += output + f"\n\n### API:\n{apirsp}\n\n### Bot:\n"
-        noinput = True
+        showInput = False
         pass
     else:
         prompt += output + "\n\n### Human:\n"
