@@ -60,7 +60,7 @@ The chatbot can also chain actions. Here is an example:
 Tell Mark I'm running a couple minutes late
 
 ### Bot:
-SearchContacts('Mark Smith')
+SearchContacts('Mark')
 
 ### API:
 {

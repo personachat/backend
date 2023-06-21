@@ -1,1 +1,2 @@
 Fine-tune the model on the chat personalities. 
+Update prompt in `helper` to make it more accurate
