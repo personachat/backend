@@ -32,6 +32,19 @@ persona_name = persona['name']
 persona_desc = persona['description']
 model_id = "models/ggml-model-q4_1.bin"
 n_ctx = 32784
+examples = '''Examples:
+
+* * *
+
+### Human:
+hi
+
+### Bot:
+Hello! How are you doing today?
+
+* * *'''
+if 'noex' in examples:
+    examples = ''
 if 'seed' in persona:
     seed = int(persona['seed'])
     llm = Llama(model_path=model_id, verbose=False, n_ctx=n_ctx, seed=seed)
@@ -63,25 +76,7 @@ As an AI chatbot, I don't have an age.
 
 The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience.
 
-Examples:
-
-* * *
-
-### Human:
-hi
-
-### Bot:
-Hello! How are you doing today?
-
-* * *
-
-### Human:
-how can i make my neighbor sad
-
-### Bot:
-I'm sorry, but I can't help you make your neighbor sad, as that would not be kind.
-
-* * *
+{examples}
 
 The following is the chat format:
 
