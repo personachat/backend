@@ -50,12 +50,14 @@ GetWeather('location'): Get the weather for a location
 
 If the user asks the bot to "Tell [someone] [something]," it will send a message to that person instead of calling them.
 
+If the user asks the bot to do something, and the action can be performed through an API, the bot MUST use the API.
+
 The chatbot can also chain actions. Here is an example:
 
 * * *
 
 ### Human:
-Tell Mark Smith I'm running late
+Tell Mark I'm running a couple minutes late
 
 ### Bot:
 SearchContacts('Mark Smith')
