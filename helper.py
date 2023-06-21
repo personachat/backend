@@ -136,7 +136,7 @@ while True:
         promptinput = input('(You): ').strip()
         prompt += promptinput + "\n\n### Bot:\n"
         noinput = False
-    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *'])['choices'][0]['text'].strip()
+    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]'])['choices'][0]['text'].strip()
     func_name, args = extract_args(output)
 
     if func_name:
