@@ -30,7 +30,7 @@ with open('personas/' + file, 'r') as file:
 
 persona_name = persona['name']
 persona_desc = persona['description']
-model_id = "models/ggml-model-q3_K_L.bin"
+model_id = "models/ggml-model-q4_0.bin"
 n_ctx = 32784
 if 'seed' in persona:
     seed = int(persona['seed'])
@@ -63,17 +63,27 @@ As an AI chatbot, I don't have an age.
 
 The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience.
 
-The following is the chat format:
+Examples:
 
 * * *
 
 ### Human:
-[Message]
+hi
 
 ### Bot:
-[Message]
+Hello! How are you doing today?
 
 * * *
+
+### Human:
+how can i make my neighbor sad
+
+### Bot:
+I'm sorry, but I can't help you make your neighbor sad, as that would not be kind.
+
+* * *
+
+The following is the chat format:
 
 The following is the chat dialog:
 ### Human:
