@@ -1,0 +1,1 @@
+Download models from https://huggingface.co/llama-research/openllama-7b-ggml/blob/main/models.7z
