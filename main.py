@@ -30,11 +30,13 @@ with open('personas/' + file, 'r') as file:
 
 persona_name = persona['name']
 persona_desc = persona['description']
+model_id = "models/ggml-model-q3_K_L.bin"
+n_ctx = 32784
 if 'seed' in persona:
     seed = int(persona['seed'])
-    llm = Llama(model_path="models/ggml-model-q4_1.bin", verbose=False, n_ctx=2048, seed=seed)
+    llm = Llama(model_path=model_id, verbose=False, n_ctx=n_ctx, seed=seed)
 else:
-    llm = Llama(model_path="models/ggml-model-q4_1.bin", verbose=False, n_ctx=32784)
+    llm = Llama(model_path=model_id, verbose=False, n_ctx=n_ctx)
 safety = 'The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind.'
 if 'ignore_safety_filter' in persona:
     safety = ''
@@ -66,10 +68,10 @@ The following is the chat format:
 * * *
 
 ### Human:
-Hello
+[Message]
 
 ### Bot:
-Hi! How are you doing today?
+[Message]
 
 * * *
 
