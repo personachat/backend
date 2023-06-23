@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot UI</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .chat-container {
+            width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: scroll;
+            padding: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .user-message {
+            background-color: #eee;
+            text-align: right;
+        }
+
+        .bot-message {
+            background-color: #ddd;
+            text-align: left;
+        }
+
+        .user-input {
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 6px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        #send-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #ddd;
+        }
+
+        .typing-indicator .dot {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background-color: #999;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: typing 1s infinite;
+        }
+
+        @keyframes typing {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+    <div class="chat-container">
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="user-input">
+            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        prompt = `The following is a chat between a helpful AI friend and a human.
+
+The AI assistant's name is: Jane Doe
+
+The AI assistant's personality is: Smart, helpful, and chatty. Friendly and understanding, like a friend.
+
+The AI assistant will greet the human using their first name. The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind.
+Here is an example:
+
+* * *
+
+### Human:
+How old are you?
+
+### Bot:
+As an AI chatbot, I don't have an age.
+
+* * *
+
+The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience.
+
+The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer.
+
+Examples:
+
+* * *
+
+### Human:
+hi
+
+### Bot:
+Hello! How are you doing today?
+
+* * *
+
+The following is the chat dialog:
+### Human:
+`
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-btn');
+
+            sendButton.addEventListener('click', sendMessage);
+
+            function sendMessage() {
+                const userInputValue = userInput.value.trim();
+                if (userInputValue === '') {
+                    return;
+                }
+
+                addMessage(userInputValue, 'user');
+                userInput.value = '';
+
+                showTypingIndicator();
+
+                fetch('/inference', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: userInputValue })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const botResponse = data.bot_response;
+                        console.log('* Responded *')
+                        console.log(botResponse)
+                        removeTypingIndicator();
+                        addMessage(botResponse, 'bot');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            function addMessage(message, sender) {
+                const chatContainer = document.createElement('div');
+                chatContainer.classList.add('chat');
+
+                const messageContainer = document.createElement('div');
+                messageContainer.classList.add('message');
+                messageContainer.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+                messageContainer.textContent = message;
+
+                chatContainer.appendChild(messageContainer);
+
+                chatMessages.appendChild(chatContainer);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function showTypingIndicator() {
+                const typingIndicator = document.createElement('div');
+                var dot1 = document.createElement('div');
+                dot1.classList.add('dot');
+                typingIndicator.appendChild(dot1);
+                var dot2 = document.createElement('div');
+                dot2.classList.add('dot');
+                typingIndicator.appendChild(dot2);
+                var dot3 = document.createElement('div');
+                dot3.classList.add('dot');
+                typingIndicator.appendChild(dot3);
+                typingIndicator.classList.add('typing-indicator');
+                // typingIndicator.textContent = '...';
+
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const typingIndicator = document.querySelector('.typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

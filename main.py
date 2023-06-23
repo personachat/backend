@@ -80,8 +80,6 @@ The AI assistant cannot "see" things about the user, as the AI is just a bot on 
 
 {examples}
 
-The following is the chat format:
-
 The following is the chat dialog:
 ### Human:
 '''
