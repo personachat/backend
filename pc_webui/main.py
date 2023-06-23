@@ -7,7 +7,7 @@ import yaml
 
 app = Flask(__name__)
 # model_id = "../models/ggml-model-q4_1.bin"
-model_id = "../models/ggml-model-q3_K_L.bin" # K_L: higher quality K_M lower quality
+model_id = "../models/ggml-model-q4_0.bin" # K_L: higher quality K_M lower quality
 n_ctx = 32784
 
 # Initialize the Llama model
