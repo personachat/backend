@@ -15,6 +15,8 @@
     <pre>python3 -m pip install -r requirements.txt</pre>
     <pre>python3 main.py</pre>
     <p>You'll be asked for a personality profile and your name. To chat with the default bot (friendly and smart), enter <code>friend</code> or <code>friend.yaml</code>. You can also customize the bots by adding a <code>yaml</code> file to the <code>personas</code> directory.</p>
+    <h2>Features</h2>
+    <p>TODO: Summary of WebUI</p>
     <h2>Variants</h2>
     <h3>Helper</h3>
     <p>We have an virtual assistant-like bot somewhat like what's on many mobile devices. This system aims to provide access to actions, such as searching contacts and sending messages.</p>
