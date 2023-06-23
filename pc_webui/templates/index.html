@@ -157,7 +157,7 @@ The following is the chat dialog:
                 if (userInputValue === '') {
                     return;
                 }
-
+                prompt += userInputValue + "\n\n### Bot:\n"
                 addMessage(userInputValue, 'user');
                 userInput.value = '';
 
@@ -168,13 +168,14 @@ The following is the chat dialog:
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ prompt: userInputValue })
+                    body: JSON.stringify({ prompt: prompt })
                 })
                     .then(response => response.json())
                     .then(data => {
-                        const botResponse = data.bot_response;
+                        const botResponse = data.bot_response.trim();
                         console.log('* Responded *')
                         console.log(botResponse)
+                        prompt += botResponse + "\n\n### Human:\n"
                         removeTypingIndicator();
                         addMessage(botResponse, 'bot');
                     })
