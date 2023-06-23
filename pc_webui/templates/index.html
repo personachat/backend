@@ -100,10 +100,10 @@
 <body>
     <div class="chat-container">
         <div id="chat-messages" class="chat-messages"></div>
-        <div class="user-input">
+        <form class="user-input" id="input-form">
             <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
-            <button id="send-btn">Send</button>
-        </div>
+            <button id="send-btn" type="submit">Send</button>
+        </form>
     </div>
 
     <script>
@@ -149,14 +149,16 @@ The following is the chat dialog:
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendButton = document.getElementById('send-btn');
+            const inputForm = document.getElementById('input-form');
 
-            sendButton.addEventListener('click', sendMessage);
+            inputForm.addEventListener('submit', sendMessage);
 
             function sendMessage() {
                 const userInputValue = userInput.value.trim();
                 if (userInputValue === '') {
                     return;
                 }
+                sendButton.setAttribute('disabled', true);
                 prompt += userInputValue + "\n\n### Bot:\n"
                 addMessage(userInputValue, 'user');
                 userInput.value = '';
@@ -177,11 +179,13 @@ The following is the chat dialog:
                         console.log(botResponse)
                         prompt += botResponse + "\n\n### Human:\n"
                         removeTypingIndicator();
+                        sendButton.removeAttribute('disabled');
                         addMessage(botResponse, 'bot');
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
+                return false;
             }
 
             function addMessage(message, sender) {
