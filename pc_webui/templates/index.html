@@ -207,12 +207,15 @@ The following is the chat dialog:
                 const typingIndicator = document.createElement('div');
                 var dot1 = document.createElement('div');
                 dot1.classList.add('dot');
+                dot1.style.animationDelay = '0s';
                 typingIndicator.appendChild(dot1);
                 var dot2 = document.createElement('div');
                 dot2.classList.add('dot');
+                dot2.style.animationDelay = '0.5s';
                 typingIndicator.appendChild(dot2);
                 var dot3 = document.createElement('div');
                 dot3.classList.add('dot');
+                dot3.style.animationDelay = '1s';
                 typingIndicator.appendChild(dot3);
                 typingIndicator.classList.add('typing-indicator');
                 // typingIndicator.textContent = '...';
