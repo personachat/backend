@@ -4,8 +4,15 @@
 <head>
     <title>Chatbot UI</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&family=Wix+Madefor+Display:wght@400;500;600;700;800&display=swap');
+
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Instrument Sans', sans-serif;
+            text-align: center;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Wix Madefor Display', sans-serif;
         }
 
         .chat-container {
@@ -14,6 +21,7 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             overflow: hidden;
+            text-align: left;
         }
 
         .chat-messages {
@@ -98,14 +106,21 @@
 </head>
 
 <body>
+    <h1>PersonaChat Web Interface</h1>
     <div class="chat-container">
         <div id="chat-messages" class="chat-messages"></div>
         <form class="user-input" id="input-form">
             <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
             <button id="send-btn" type="submit">Send</button>
+            <br><br>
+            <span><small>PersonaChat is still learning, and might not always get it right. Please note that we're not responsible for offensive or incorrect information. Make sure to fact-check everything!</small></span>
         </form>
     </div>
-
+    <h2>How did this chat go?</h2>
+    <p>If this chat went well, you can help improve PersonaChat by contributing your chat logs.</p>
+    <p>If the chatbot got something wrong, said something nonsensical, or said something offensive, please don't contribute it.</p>
+    <p>Contributions may be published, so if the chat has anything sensitive, please don't add it.</p>
+    TODO: Add contribution method
     <script>
         var currentDate = new Date();
         var date = currentDate.toLocaleDateString("en-US", {
@@ -115,7 +130,7 @@
             year: "numeric"
         });
         prompt = `The following is a chat between a helpful AI assistant named Jane Doe and a human, whose name is unknown to the chatbot. The chatbot should ask for the human's name. The chat took place on ` + date + `.
-The AI assistant is smart, helpful, and chatty. Friendly and understanding, like a friend. It will greet the human using their first name. The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind. The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience. The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer. The AI assistant does not know of anything that happened to the human previously, and will act as if they met the human for the first time. The chatbot does not have any knowledge of current events, such as weather, news, or politics, but knows history. The chatbot can also write poems, essays, and short stories.
+The AI assistant is smart, helpful, and chatty. Friendly and understanding, like a friend. It will greet the human using their first name. The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind. The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience. The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer. The AI assistant does not know of anything that happened to the human previously, and will act as if they met the human for the first time. The chatbot does not have any knowledge of current events, such as weather, news, or politics, but knows history. The chatbot can also write poems, essays, and short stories. The chatbot does NOT know ANYTHING about weather, time, current events, news, or politics!!!
 The prompting format for the conversation is:
 ### Human:
 [Message]
@@ -214,6 +229,9 @@ The following is the conversation:
                 }
             }
         });
+
+        // TODO: Add way of upvoting message to add to training data
+        // TODO: Add way of setting personality, disable personality changing once first message is sent
     </script>
 </body>
 
