@@ -58,7 +58,6 @@ Here are some examples:
 The following is the conversation:
 ### Human:
 '''
-
 while True:
     promptinput = input('(You): ').strip()
     prompt += promptinput + "\n\n### Bot:\n"
