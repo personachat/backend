@@ -26,10 +26,10 @@ def inference():
 
 @app.route('/vote', methods=['POST'])
 def vote():
-    prompt = request.json['prompt']
+    prompt = request.json['prompt'].strip().removesuffix('### Human:').removesuffix('### Bot:').strip()
     if not os.path.exists('votes'):
         os.mkdir('votes')
-    prompthash = hashlib.md5(prompt.encode('utf-8'))
+    prompthash = str('votes/' + hashlib.md5(prompt.encode('utf-8')).hexdigest()) # not only does md5 hash generate a unique filename, but it also removes duplicates
     with open(prompthash + '.txt', 'w') as f:
         f.write(prompt)
     response = {'success': True}
