@@ -18,7 +18,7 @@ def index():
 @app.route('/inference', methods=['POST'])
 def inference():
     prompt = request.json['prompt']
-    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]'])
+    output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]', 'Human:', 'Bot:'])
     response = {'bot_response': output['choices'][0]['text'].strip()}
     return jsonify(response)
 
