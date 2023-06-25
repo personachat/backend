@@ -5,3 +5,4 @@
 * Make API, save prompt to text file, and allow user to load text file by filename to continue chat later
 * Collect RLHF-like data with upvoting and downvoting to create a dataset, in hopes of eventually training a finetuned model
   * Separate `Helper` dataset from Persona dataset, because `Helper` has access to APIs
+* Implement response caching (also on webUI)
