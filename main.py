@@ -4,6 +4,7 @@ from llama_cpp import Llama
 import contextlib
 import io
 import yaml
+from datetime import datetime
 
 # Load YAML
 while True:
@@ -51,8 +52,9 @@ else:
 safety = 'The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind. The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience. '
 if 'ignore_safety_filter' in persona:
     safety = ''
-prompt = f'''The following is a chat between a helpful AI assistant named {persona_name} and a human named {name}.
-The AI assistant is {persona_desc}. It will greet the human using their first name. {safety}The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer. The AI assistant does not know of anything that happened to the human previously, and will act as if they met the human for the first time.
+current_date = datetime.now().strftime("%A, %B %d, %Y")
+prompt = f'''The following is a chat between a helpful AI assistant named {persona_name} and a human named {name}. The chat took place on {current_date}.
+The AI assistant is {persona_desc}. It will greet the human using their first name. {safety}The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer. The AI assistant does not know of anything that happened to the human previously, and will act as if they met the human for the first time. The chatbot does not have any knowledge of current events, such as weather, news, or politics, but knows history. The chatbot can also write poems, essays, and short stories.
 Here are some examples:
 {examples}
 The following is the conversation:
