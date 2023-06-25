@@ -23,6 +23,8 @@
     <p>This version is not ready for production yet, and access to APIs has not been completed. Quality is also extremely poor.</p>
     <p>Use at your own risk.</p>
     <p>The file is in <code>helper.py</code>.</p>
+    <h2>Important</h2>
+    <p>Please note that by interacting with PersonaChat, your conversations may be logged and added to our dataset, which may be published publicly.</p>
     <h2>Disclaimer</h2>
     <p>PersonaChat is an AI-powered product developed to simulate conversations and engage in interactive dialogues. It is important to note that due to the nature of machine learning algorithms, PersonaChat may occasionally generate offensive, inappropriate, or incorrect content. The generated responses do not reflect the opinions, beliefs, or endorsements of the creators or developers of PersonaChat.</p>
     <p>While extensive efforts have been made to train and fine-tune PersonaChat to provide useful and respectful conversations, there are inherent limitations in language models that may result in unexpected outcomes. The AI system learns from a diverse range of text sources and attempts to generate responses based on patterns and examples found in the training data. However, it is impossible to guarantee that every generated response will be accurate, up-to-date, or free from biases.</p>
