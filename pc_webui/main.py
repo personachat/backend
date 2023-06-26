@@ -30,15 +30,20 @@ def inference():
 @app.route('/vote', methods=['POST'])
 def vote():
     prompt = request.json['prompt'].strip().removesuffix('### Human:').removesuffix('### Bot:').strip()
+    print('Logging...')
     if local_logging:
         if not os.path.exists('votes'):
             os.mkdir('votes')
         prompthash = str(hashlib.md5(prompt.encode('utf-8')).hexdigest()) # not only does md5 hash generate a unique filename, but it also removes duplicates
         with open('votes/' + prompthash + '.txt', 'w') as f:
             f.write(prompt)
+        print('Logged locally.')
         response = {'success': True}
     else:
-        response = {'success': int(requests.post(logging_endpoint, data={'log': prompt}).status_code) == 200}
+        print('Sending to voting server...')
+        code = int(requests.post(logging_endpoint, data={'log': prompt}).status_code)
+        print('Sent to voting server! Server responded with code ' + str(code))
+        response = {'success': code == 200}
     return jsonify(response)
 
 if __name__ == '__main__':
