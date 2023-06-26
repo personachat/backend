@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Chatbot UI</title>
+    <title>PersonaChat</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&family=Wix+Madefor+Display:wght@400;500;600;700;800&display=swap');
 
@@ -77,6 +77,10 @@
             color: white;
             cursor: pointer;
             font-size: 1em;
+        }
+
+        a {
+            color: #4CAF50;
         }
 
         .typing-indicator {
@@ -161,7 +165,8 @@
         }
 
         .header .title {
-            margin-left: 15px;
+            margin: 0 15px;
+            flex-grow: 1;
             font-size: 20px;
             line-height: 20px;
             font-weight: bold;
@@ -189,8 +194,10 @@
     <p>Chat with a customized personality for free!</p>
     <div class="chat-container">
         <div class="header">
-            <img src="https://aeiljuispo.cloudimg.io/v7/https://s3.amazonaws.com/moonup/production/uploads/62e54f0eae9d3f10acb95cb9/OruUGRf_emc8TbeC0MMxj.png?w=100&h=100" class="avatar">
+            <!-- <img src="https://aeiljuispo.cloudimg.io/v7/https://s3.amazonaws.com/moonup/production/uploads/62e54f0eae9d3f10acb95cb9/OruUGRf_emc8TbeC0MMxj.png?w=100&h=100" class="avatar"> -->
+            <img src="{{ url_for('static', filename='avatar.png') }}" class="avatar">
             <p class="title">Jane Doe</p>
+            <a href="javascript:void(0)" onclick="if(confirm('Are you sure you want to reset this chat? This will clear conversation history.')){resetChat();}">Reset</a>
         </div>
         <div id="chat-messages" class="chat-messages"></div>
         <form class="user-input" id="input-form">
@@ -204,6 +211,7 @@
     <h2>How did this chat go?</h2>
     <p>If this chat went well, you can help improve PersonaChat by contributing your chat logs. <b>If the chatbot got something wrong, said something nonsensical, or said something offensive, please don't upvote it.</b></p>
     <p>Contributions may be published, so if the chat has anything sensitive, please don't add it.</p>
+    <p><b>By sending your vote, you agree to the <a href="/vp">Voting Policy</a>.</b></p>
     <div class="upvote">
         <div class="button" onclick="upvote()" id="votebtn">
             <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
@@ -212,7 +220,6 @@
             <span class="text" id="votetext">Upvote</span>
         </div>
     </div>
-    <p><small>When you upvote a conversation, the transcript may be shared with us. The transcript may also be published in our public dataset, so please don't upvote any conversations that have sensitive or personal information.</small></p>
     <script>
         var currentDate = new Date();
         var date = currentDate.toLocaleDateString("en-US", {
@@ -221,7 +228,8 @@
             day: "numeric",
             year: "numeric"
         });
-        prompt = `The following is a chat between a helpful AI assistant named Jane Doe and a human. Because the chatbot does not know the human's name, the chatbot will ask the human what their name is. The chat took place on ` + date + `.
+        var numMessages = 0;
+        var promptbase = `The following is a chat between a helpful AI assistant named Jane Doe and a human. Because the chatbot does not know the human's name, the chatbot will ask the human what their name is. The chat took place on ` + date + `.
 The AI assistant is smart, helpful, and chatty. Friendly and understanding, like a friend. It will greet the human using their first name. The assistant will clearly state that they are an AI. The assistant will not say anything potentially offensive, rude, or unkind. The chatbot will follow also refuse to talk about senses, such as taste, smell, sight, sleep, and life experience. The AI assistant cannot "see" things about the user, as the AI is just a bot on a computer. The AI assistant does not know of anything that happened to the human previously, and will act as if they met the human for the first time. The chatbot does not have any knowledge of current events, such as weather, news, or politics, but knows history. The chatbot can also write poems, essays, and short stories. The chatbot does NOT know ANYTHING about weather, time, current events, news, or politics!!! If the user says something nonsensical, the chatbot will politely notify the human that it doesn't understand the human.
 The prompting format for the conversation is:
 ### Human:
@@ -235,6 +243,7 @@ The prompting format for the conversation is:
 The following is the conversation:
 ### Human:
 `
+        var prompt = promptbase;
         document.addEventListener('DOMContentLoaded', function () {
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
@@ -249,6 +258,7 @@ The following is the conversation:
                 if (userInputValue === '') {
                     return;
                 }
+                numMessages++;
                 sendButton.setAttribute('disabled', true);
                 prompt += userInputValue + "\n\n### Bot:\n"
                 addMessage(userInputValue, 'user');
@@ -272,6 +282,7 @@ The following is the conversation:
                         removeTypingIndicator();
                         sendButton.removeAttribute('disabled');
                         addMessage(botResponse, 'bot');
+                        numMessages++;
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -324,25 +335,40 @@ The following is the conversation:
         var upvoted = false;
         function upvote() {
             if (upvoted == false) {
-                upvoted = true;
-                document.getElementById('votebtn').classList.add('done');
-                document.getElementById('votetext').innerText = 'Upvoting...';
-                fetch('/vote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ prompt: prompt })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('votetext').innerText = 'Thanks!';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-
+                if (numMessages >= 2) {
+                    if (confirm('By sending your vote, you agree to the Voting policy.')) {
+                        upvoted = true;
+                        document.getElementById('votebtn').classList.add('done');
+                        document.getElementById('votetext').innerText = 'Upvoting...';
+                        fetch('/vote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ prompt: prompt })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById('votetext').innerText = 'Thanks!';
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    } else {
+                        alert('Your vote has not been collected.')
+                    }
+                } else {
+                    alert('Sorry, you must have at least 2 messages before you can upvote this conversation.')
+                }
             }
+        }
+        function resetChat() {
+            prompt = promptbase;
+            document.getElementById('chat-messages').innerHTML = '';
+            alert('Chat context reset.');
+        }
+        window.onbeforeunload = function() {
+            return false;
         }
 
         // TODO: Add way of upvoting message to add to training data
