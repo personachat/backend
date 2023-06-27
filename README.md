@@ -16,9 +16,11 @@
     <pre>python3 main.py</pre>
     <p>You'll be asked for a personality profile and your name. To chat with the default bot (friendly and smart), enter <code>friend</code> or <code>friend.yaml</code>. You can also customize the bots by adding a <code>yaml</code> file to the <code>personas</code> directory.</p>
     <h2>Features</h2>
-    <p>TODO: Summary of WebUI</p>
+    <p>Coming soon!</p>
     <h2>WebUI</h2>
-    <p>Try out our brand new WebUI! Currently, the UI only supports the default (<code>friend</code>) persona, but we're working on adding more!</p>
+    <h3>Old webUI</h3>
+    <p>This webUI is old and deprecated. Please see the new webUI <a href="https://github.com/personachat/webui">in this repository</a>.</p>
+    <p>If you just want to try PersonaChat and don't care about new features, feel free to use our old webUI! Please note that the prompts may not be updated as often, so the quality may be lower than otherwise expected. The old UI only supports the default (<code>friend</code>) persona, but we're working on adding more!</p>
     <p>To try it out, please run the following commands:</p>
     <pre>cd pc_webui</pre>
     <pre>python3 main.py</pre>

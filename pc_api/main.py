@@ -1,10 +1,8 @@
 # PersonaChat API
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, jsonify
 import hashlib
 import os
 from llama_cpp import Llama
-import yaml
-import requests
 
 app = Flask(__name__)
 model_id = "../models/ggml-model-q4_1.bin"
@@ -19,7 +17,7 @@ llm = Llama(model_path=model_id, verbose=False, n_ctx=n_ctx)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return 'API ERROR'
 
 @app.route('/inference', methods=['POST'])
 def inference():
@@ -27,30 +25,5 @@ def inference():
     output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]', 'Human:', 'Bot:'])
     response = {'bot_response': output['choices'][0]['text'].strip()}
     return jsonify(response)
-
-@app.route('/vp')
-def vp():
-    return render_template('vp.html')
-
-@app.route('/vote', methods=['POST'])
-def vote():
-    prompt = request.json['prompt'].strip().removesuffix('### Human:').removesuffix('### Bot:').strip()
-    print('Logging...')
-    if local_logging:
-        if not os.path.exists('votes'):
-            os.mkdir('votes')
-        prompthash = str(hashlib.md5(prompt.encode('utf-8')).hexdigest()) # not only does md5 hash generate a unique filename, but it also removes duplicates
-        with open('votes/' + prompthash + '.txt', 'w') as f:
-            f.write(prompt)
-        print('Logged locally.')
-        response = {'success': True}
-    else:
-        print('Sending to voting server...')
-        code = int(requests.post(logging_endpoint, data={'log': prompt}).status_code)
-        print('Sent to voting server! Server responded with code ' + str(code))
-        response = {'success': code == 200}
-    return jsonify(response)
-
 if __name__ == '__main__':
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run()

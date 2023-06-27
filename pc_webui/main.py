@@ -1,3 +1,4 @@
+# IMPORTANT! This code is deprecated! Please read the README in this folder!
 from flask import Flask, request, render_template, jsonify
 import hashlib
 import os
