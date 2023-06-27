@@ -1,6 +1,8 @@
 <div align="center">
     <img src="https://huggingface.co/datasets/llama-research/assets/resolve/main/llama.png" width="250">
     <h1>PersonaChat</h1>
+    <h2>Notice</h2>
+    <p>PersonaChat is still in beta and should not be used in production. If you like this project or want further development, <b>please star this repository.</b> The authors of this project also work on many other projects, so stars will prompt us to continue working on this project.</p>
     <h2>Introduction</h2>
     <p>PersonaChat allows you to easily create chatbots with customized personalities.</p>
     <p>Although PersonaChat is powered by LLMs (Large Language Models), it can be run on consumer hardware using quantization.</p>
