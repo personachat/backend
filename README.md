@@ -24,6 +24,7 @@
     <p>To try it out, please run the following commands:</p>
     <pre>cd pc_webui</pre>
     <pre>python3 main.py</pre>
+    <h3><a href="https://github.com/personachat/webui" target="_blank">New webUI</a></h3>
     <h2>Variants</h2>
     <h3>Helper</h3>
     <p>We have an virtual assistant-like bot somewhat like what's on many mobile devices. This system aims to provide access to actions, such as searching contacts and sending messages.</p>
