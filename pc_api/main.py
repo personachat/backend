@@ -2,9 +2,11 @@
 from flask import Flask, request, jsonify
 import hashlib
 import os
+from flask_cors import CORS, cross_origin
 from llama_cpp import Llama
 
 app = Flask(__name__)
+cors = CORS(app)
 model_id = "../models/ggml-model-q4_1.bin"
 # model_id = "../models/open-llama-13b-q4_0.bin"
 # model_id = "../models/ggml-model-q4_0.bin"
@@ -20,10 +22,12 @@ def index():
     return 'API ERROR'
 
 @app.route('/inference', methods=['POST'])
+@cross_origin()
 def inference():
     prompt = request.json['prompt']
     output = llm(prompt, max_tokens=1024, echo=False, stop=['###', '* * *', '[Message]', 'Human:', 'Bot:'])
     response = {'bot_response': output['choices'][0]['text'].strip()}
     return jsonify(response)
 if __name__ == '__main__':
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.run()
