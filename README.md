@@ -1,5 +1,6 @@
+Further development has been [moved to Codeberg](https://codeberg.org/personachat/backend).
+
 <div align="center">
-    <img src="https://huggingface.co/datasets/llama-research/assets/resolve/main/llama.png" width="250">
     <h1>PersonaChat</h1>
     <h2>Notice</h2>
     <p>PersonaChat is still in beta and should not be used in production. If you like this project or want further development, <b>please star this repository.</b> The authors of this project also work on many other projects, so stars will prompt us to continue working on this project.</p>
